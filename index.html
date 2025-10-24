@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elikonas - Master Your Craft</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #177e89 0%, #084c61 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 206, 87, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-image {
+            width: 300px;
+            height: 150px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            from { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) drop-shadow(0 0 20px rgba(255,255,255,0.1)); }
+            to { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) drop-shadow(0 0 30px rgba(255,255,255,0.2)); }
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #ffffff;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            opacity: 0.9;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        .feature {
+            background: rgba(255, 200, 87, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 206, 87, 0.1);
+            border-color: rgba(255, 206, 87, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature p {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .email-signup {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .signup-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #db3a34, #ff6b35);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(219, 58, 52, 0.3);
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(219, 58, 52, 0.4);
+            background: linear-gradient(45deg, #ff6b35, #db3a34);
+        }
+
+        .launch-date {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(35, 48, 49, 0.8);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 206, 87, 0.2);
+            border-color: rgba(255, 206, 87, 0.6);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .email-signup {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="floating-shapes">
+            
+            
+            
+        </div>
+
+        <div class="logo-container">
+            <svg class="logo-image" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+				 <img src="assets/images/Elikonas_logo_wht-yellow-sun.svg" alt="Elikonas logo">
+                
+				
+            </svg>
+            
+        </div>
+        <div class="tagline">
+            The future of social learning is coming. Connect, collaborate, and transform education together.
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                	<img src="assets/images/icon-grad.svg" height=80px> 
+                </div>
+                <h3>Design Your Degree</h3>
+                <p>What is your passion in life? Define for yourself what you need to learn so that you can persue that passion.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                	<img src="assets/images/icon-3people.svg" height=80px> 
+                </div>
+                <h3>Socially Validated</h3>
+                <p>Connect with learners and educators worldwide to help define your learning path, seek advice, and be encouraged.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                	<img src="assets/images/icon-personal.svg" height=80px> 
+                </div>
+                <h3>Learn for Yourself</h3>
+                <p>Seek out educational experiences suited to your needs. Try hands-on, self-paced, or traditional courses. Learning is personal.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                	<img src="assets/images/icon-share.svg" height=80px> 
+                </div>
+                <h3>Share Your Success</h3>
+                <p>Take your educational experiences with you wherever you go. Decide how and with whom to share your success.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="launch-date">🚀 Launching 2026</div>
+            
+            <form class="email-signup" action="https://elikonas.us4.list-manage.com/subscribe/post?u=2d3e21399e1d37ecbfa72d7b8&amp;id=750f1fce6a&amp;f_id=001dc2e1f0" method="POST" target="_blank">
+                <!-- Real email field -->
+                <input type="email" name="EMAIL" class="email-input" placeholder="Enter your email for early access" required>
+                
+                <!-- Honeypot field (hidden) - prevents bots from signing up -->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                    <input type="text" name="b_2d3e21399e1d37ecbfa72d7b8_750f1fce6a" tabindex="-1" value="">
+                </div>
+                
+                <button type="submit" class="signup-btn">Get Notified</button>
+            </form>
+
+            <div class="social-links">
+                <a href="#" class="social-link" title="Twitter">🐦</a>
+                <a href="#" class="social-link" title="LinkedIn">💼</a>
+                <a href="#" class="social-link" title="Discord">💬</a>
+                <a href="#" class="social-link" title="GitHub">⚡</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.0005;
+                const x = e.clientX * speed;
+                const y = e.clientY * speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
