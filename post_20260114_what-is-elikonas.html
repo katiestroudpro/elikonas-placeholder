@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Elikonas?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #177e89 0%, #084c61 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 76, 97, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #ffce57;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 206, 87, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        .post-content {
+            background: rgba(255, 200, 87, 0.1);
+            padding: 3rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .post-header {
+            margin-bottom: 2rem;
+        }
+
+        .post-date {
+            color: #ffce57;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            background: rgba(255, 206, 87, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .post-body {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .post-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .post-body h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .post-body ul, .post-body ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body li {
+            margin-bottom: 0.2rem;
+        }
+
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .share-twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .share-email {
+            background: #EA4335;
+            color: white;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: rgba(255, 200, 87, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .sidebar-widget h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .related-post {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 206, 87, 0.2);
+        }
+
+        .related-post:last-child {
+            border-bottom: none;
+        }
+
+        .related-post-date {
+            font-size: 0.85rem;
+            color: #ffce57;
+            margin-bottom: 0.3rem;
+        }
+
+        .related-post a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .related-post a:hover {
+            color: #ffce57;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffce57;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .post-content {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding-top: 5rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .post-content {
+                padding: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 1.8rem;
+            }
+
+            .post-image {
+                height: 250px;
+                font-size: 4rem;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+            }
+
+            .share-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="post-content">
+            <a href="blog.html" class="back-link">← Back to Blog</a>
+            
+            <div class="post-header">
+                <div class="post-date">January 14, 2026</div>
+                <h1 class="post-title"></h1>
+            </div>
+
+            <div class="post-image">
+                <img src="assets/images/post-image_20260114.png" alt="Blog post featured image">
+            </div>
+
+            <div class="post-body">
+                <p>
+					Education is at a crossroads.
+					
+				</p>
+				<p>
+					For a long time, we’ve treated learning as a one-size-fits-all experience: pick a school, follow a prescribed path, earn a credential, hope it leads where you want to go. That model works for some people—but not for everyone. And for many, it was never really an option to begin with.
+				</p>
+				<p>
+					Elikonas exists because learning doesn’t happen in one way, for one reason, or on one timeline.
+				</p>
+				<p>
+					It’s a new way to “do” secondary education—one that starts with you.
+				</p>
+				
+				<h2>	A New Way to Think About Education </h2>
+				<p>
+					Most of us grew up with a very specific picture of education:
+					a classroom, a lecture, homework, tests, grades, and eventually a degree.
+				</p>
+				<p>
+					But learning doesn’t only happen there.
+				</p>
+				<p>
+					People learn through:
+				</p>
+				
+				<ul>
+					<li>Trade programs and apprenticeships</li>
+
+					<li>Project-based and self-directed work</li>
+
+					<li>Volunteering and community-building</li>
+
+					<li>Online courses, bootcamps, and workshops</li>
+
+					<li>Starting businesses, experimenting, failing, and trying again</li>
+				</ul>
+				
+				<p>
+					Elikonas is designed to support <b>all of these paths</b>, not just the traditional academic one.
+				</p>
+				
+				<p>
+					We don’t provide education ourselves. Instead, we aggregate educational offerings from many sources—eventually from all over the world—and give you the tools to assemble them into something meaningful <i>for your life</i>.
+				</p>
+				
+				<h2>Designing Your Own Path</h2>
+				
+				<p>
+					With Elikonas, everyone starts with a free account.
+				</p>
+				
+				<p>
+					From there, you can:
+				</p>
+				<ul>
+					<li>Decide what you love to do—or what you want to explore</li>
+
+					<li>Design your own “degree,” either from scratch or using a template</li>
+
+					<li>Combine learning experiences that fit your goals, schedule, and circumstances</li>
+				</ul>
+
+					<p>Maybe you’re learning for a job.</br>
+					Maybe you’re learning to start a business.</br>
+					Maybe you’re learning because you’re curious, or because a lifelong dream finally feels possible.</br>
+				</p>
+
+					<p>
+						Elikonas is built to support all of that.
+					</p>
+
+					<h2>What We Mean by Personalized Learning</h2>
+
+					<p>
+						Personalized learning isn’t just about moving education online or letting people work at their own pace.
+					</p>
+					
+					<p>
+					It’s about recognizing that:
+					</p>
+
+					<ul>
+					<li>Life doesn’t follow a prescribed path</li>
+
+					<li>There are many ways to build skills and experience</li>
+
+					<li>Rigid structures can be barriers, not benchmarks</li>
+
+					<li>Learning should adapt to real lives—not the other way around</li>
+				</ul>
+				
+				<p>
+					At its core, personalized learning puts agency back in the hands of the learner. You’re not just consuming education—you’re <i>shaping</i> it.
+
+					<h2>Learning Is Better Together</h2>
+					
+					<p>
+					One of the biggest misconceptions about self-directed learning is that it’s lonely or unstructured.
+					</p>
+
+					<p>
+					Elikonas is designed around the opposite idea.
+					</p>
+					
+					<p>
+					You can build a social network around your learning—people you trust, admire, and learn from. Share your plans. Share your progress. Ask for advice. Offer encouragement. Learn alongside others who are walking different paths toward their own goals.
+					</p>
+					
+					<p>
+					This social layer does something important:
+					
+					<ul>
+					<li>It provides motivation</li>
+					<li>It creates accountability</li>
+					<li>It offers validation and perspective</li>
+				</ul>
+				
+				<p>
+					Learning is deeply human. We do it best when we’re not doing it alone.
+				</p>
+
+				<h2>A Future Without Crushing Debt or Rigid Rules</h2>
+				
+				<p>
+					Not everyone can pause their life to attend school full-time.</br>
+					Not everyone wants to take on decades of debt.</br>
+					Not everyone fits into a rigid system built for a narrow definition of success.</br>
+				</p>
+				
+				<p>
+					Elikonas is being built to support a different future—one where learning is accessible, flexible, and aligned with real lives and real ambitions.
+				</p>
+				
+				<p>
+
+					Not a “nice to have.”</br>
+					Not a forced means to an end.</br>
+					But a way to build a life of purpose around the ideas and skills that truly matter to you.</br>
+				</p>
+					<h2>We’re Building This Slowly—On Purpose</h2>
+					
+					<p>
+					We’re starting small so we can build a solid foundation—and we want your input along the way.
+				</p>
+				<p>
+					If this vision resonates with you, the best way to get involved right now is to sign up for our free newsletter. You’ll receive updates, invitations to participate in surveys, and opportunities to help shape the features we’re building.</p>
+					
+					<p>
+					Elikonas only works if it works for you.
+				</p>
+					
+					<p>
+					And we’d love to build it together.
+                </p>
+
+                
+            </div>
+
+            <div class="share-section">
+                <div class="share-title">Share this post:</div>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/intent/tweet?url=YOUR_URL&text=What%20Is%20Elikonas" target="_blank" class="share-btn share-twitter">
+                        <span>𝕏</span> Share on X
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=YOUR_URL" target="_blank" class="share-btn share-linkedin">
+                        <span>in</span> Share on LinkedIn
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_URL" target="_blank" class="share-btn share-facebook">
+                        <span>f</span> Share on Facebook
+                    </a>
+                    <a href="mailto:?subject=Check out this article&body=I thought you'd find this interesting: YOUR_URL" class="share-btn share-email">
+                        <span>✉</span> Share via Email
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3>Recent Posts</h3>
+                <div class="related-post">
+                    <div class="related-post-date">January 5, 2026</div>
+                    <a href="blog-post-2.html">Building a Community of Lifelong Learners</a>
+                </div>
+                <div class="related-post">
+                    <div class="related-post-date">December 28, 2025</div>
+                    <a href="blog-post-3.html">Why Traditional Education Needs to Evolve</a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Join Our Community</h3>
+                <p style="margin-bottom: 1rem; line-height: 1.6;">
+                    Be the first to know when Elikonas launches and get exclusive updates on the future of education.
+                </p>
+                <a href="index.html#signup" style="display: inline-block; padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #db3a34, #ff6b35); border-radius: 50px; color: white; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
+                    Get Early Access
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.0005;
+                const x = e.clientX * speed;
+                const y = e.clientY * speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Update share buttons with actual URL when deployed
+        document.addEventListener('DOMContentLoaded', function() {
+            const actualURL = encodeURIComponent(window.location.href);
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                const href = btn.getAttribute('href');
+                btn.setAttribute('href', href.replace('YOUR_URL', actualURL));
+            });
+        });
+    </script>
+</body>
+</html>
