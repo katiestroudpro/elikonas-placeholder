@@ -352,6 +352,50 @@
                 justify-content: center;
             }
         }
+		
+        .cta-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .email-signup {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 2rem;
+            max-width: 200px;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: .5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .signup-btn {
+            padding: .5rem;
+            background: linear-gradient(45deg, #db3a34, #ff6b35);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(219, 58, 52, 0.3);
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(219, 58, 52, 0.4);
+            background: linear-gradient(45deg, #ff6b35, #db3a34);
+        }
     </style>
 </head>
 <body>
@@ -578,9 +622,18 @@
                 <p style="margin-bottom: 1rem; line-height: 1.6;">
                     Be the first to know when Elikonas launches and get exclusive updates on the future of education.
                 </p>
-                <a href="index.html#signup" style="display: inline-block; padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #db3a34, #ff6b35); border-radius: 50px; color: white; text-decoration: none; font-weight: 600; transition: transform 0.3s ease;">
-                    Get Early Access
-                </a>
+	            <form class="email-signup" action="https://elikonas.us4.list-manage.com/subscribe/post?u=2d3e21399e1d37ecbfa72d7b8&amp;id=750f1fce6a&amp;f_id=001dc2e1f0" method="POST" target="_blank">
+	                <!-- Real email field -->
+	                <input type="email" name="EMAIL" class="email-input" placeholder="Please add your email" required>
+                
+	                <!-- Honeypot field (hidden) - prevents bots from signing up -->
+	                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+	                    <input type="text" name="b_2d3e21399e1d37ecbfa72d7b8_750f1fce6a" tabindex="-1" value="">
+	                </div>
+					
+	                <button type="submit" class="signup-btn">Submit</button>
+			
+	            </form>
             </div>
         </aside>
     </div>
