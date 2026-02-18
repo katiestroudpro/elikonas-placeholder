@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Your College Story?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #177e89 0%, #084c61 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 76, 97, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #ffce57;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 206, 87, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        .post-content {
+            background: rgba(255, 200, 87, 0.1);
+            padding: 3rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .post-header {
+            margin-bottom: 2rem;
+        }
+
+        .post-date {
+            color: #ffce57;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            background: rgba(255, 206, 87, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .post-body {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .post-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .post-body h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .post-body ul, .post-body ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body li {
+            margin-bottom: 0.2rem;
+        }
+
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .share-twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .share-email {
+            background: #EA4335;
+            color: white;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: rgba(255, 200, 87, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 206, 87, 0.3);
+        }
+
+        .sidebar-widget h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ffce57;
+        }
+
+        .related-post {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 206, 87, 0.2);
+        }
+
+        .related-post:last-child {
+            border-bottom: none;
+        }
+
+        .related-post-date {
+            font-size: 0.85rem;
+            color: #ffce57;
+            margin-bottom: 0.3rem;
+        }
+
+        .related-post a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .related-post a:hover {
+            color: #ffce57;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffce57;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: gap 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+        }
+		
+		
+		
+		
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .post-content {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding-top: 5rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .post-content {
+                padding: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 1.8rem;
+            }
+
+            .post-image {
+                height: 250px;
+                font-size: 4rem;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+            }
+
+            .share-btn {
+                justify-content: center;
+            }
+        }
+		
+        .cta-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .email-signup {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 2rem;
+            max-width: 200px;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: .5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .signup-btn {
+            padding: .5rem;
+            background: linear-gradient(45deg, #db3a34, #ff6b35);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(219, 58, 52, 0.3);
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(219, 58, 52, 0.4);
+            background: linear-gradient(45deg, #ff6b35, #db3a34);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="post-content">
+            <a href="blog.html" class="back-link">← Back to Blog</a>
+            
+            <div class="post-header">
+                <div class="post-date">February 18, 2026</div>
+                <h1 class="post-title">You're Invited: What's Your College Story?</h1>
+            </div>
+
+            <div class="post-image">
+                <img src="assets/images/post-image_20260218.png" alt="Blog post featured image">
+            </div>
+
+            <div class="post-body">
+
+				  <p>
+				    On <a href="https://us05web.zoom.us/meeting/register/fRWc8x-RTUKXMs82sxvrXw">February 26th at 12pm Pacific / 3pm Eastern</a>, I’m launching a new video podcast series called:
+				  </p>
+
+				  <h1>What’s Your College Story?</h1>
+
+				  <p>
+				    Each week, I’ll sit down with someone to talk about their education journey — the expected path, 
+				    the unexpected turns, the alternate routes. Many will have taken paths that don’t fit neatly into 
+				    the traditional narrative.
+				  </p>
+
+				  <p>
+				    For the first episode, I’m sharing my own story.
+				  </p>
+
+				  <hr>
+
+				  <h2>I Always Thought I Was College Bound</h2>
+
+				  <p>
+				    Then I became a mom my senior year of high school.
+				  </p>
+
+				  <p>
+				    It took me five years to enroll.
+				  </p>
+
+				  <p>
+				    The hardest barrier wasn’t financial. It wasn’t logistical.
+				  </p>
+
+				  <p>
+				    It was belief.
+				  </p>
+
+				  <p>
+				    Somewhere deep inside, I believed college was for other people.
+				  </p>
+
+				  <ul>
+				    <li>Not for someone born into poverty.</li>
+				    <li>Not for someone who had a child in high school.</li>
+				    <li>Not for someone like me.</li>
+				  </ul>
+
+				  <hr>
+
+				  <h2>The Moment Everything Shifted</h2>
+
+				  <p>
+				    One day I overheard a friend talking about his community college classes. I asked how he got in.
+				  </p>
+
+				  <blockquote>
+				    <p>“I went to the admissions office and applied.”</p>
+				  </blockquote>
+
+				  <p>
+				    That was it.
+				  </p>
+
+				  <p>
+				    I felt foolish — not because it was complicated, but because I had imagined some invisible requirement I didn’t meet.
+				  </p>
+
+				  <p>
+				    Sometimes the biggest barriers aren’t rules. They’re assumptions.
+				  </p>
+
+				  <hr>
+
+				  <h2>Six Years and $60,000 Later</h2>
+
+				  <p>
+				    Six years later — with $30,000 in student loans and another $30,000 covered by grants — I earned my Bachelor’s in Technical Communication from the University of Washington.
+				  </p>
+
+				  <p>
+				    I didn’t fully grasp what that meant at the time.
+				  </p>
+
+				  <p>
+				    I was the first in generations in my family to graduate from college. Many hadn’t even finished high school. My mom, who was one of nine children, had to drop out in 10th grade to help take care of younger siblings.
+				  </p>
+
+				  <p>
+				    Over time, especially visiting my mom’s hometown of Albuquerque, I began to see more clearly the structural and emotional barriers that shape educational decisions.
+				  </p>
+
+				  <ul>
+				    <li>The quiet belief that “college is for other people.”</li>
+				    <li>The immediate need to survive.</li>
+				    <li>Minimum wage jobs.</li>
+				    <li>Families to raise.</li>
+				    <li>Difficult relationships.</li>
+				    <li>Hardships that consume time and energy.</li>
+				  </ul>
+
+				  <p><strong>And yet —</strong></p>
+
+				  <ul>
+				    <li>They are brilliant.</li>
+				    <li>Bilingual.</li>
+				    <li>Creative.</li>
+				    <li>Inventive.</li>
+				    <li>Resilient.</li>
+				    <li>Hardworking.</li>
+				  </ul>
+
+				  <p>
+				    Some family members have since earned degrees. Others pursued certifications. Many built success through work alone.
+				  </p>
+
+				  <p>
+				    Most are simply doing what they can to make it through another day — and that is no small thing.
+				  </p>
+
+				  <hr>
+
+				  <h2>Why This Series Matters</h2>
+
+				  <p>
+				    This is one reason I’m building Elikonas.
+				  
+				    There are others I’ll share soon.
+				  
+
+				  <p>
+				    But first, I want to hear your stories.
+				  </p>
+
+				  <p>
+				    <a href="https://us05web.zoom.us/meeting/register/fRWc8x-RTUKXMs82sxvrXw">Join us on February 26th at 12pm PT / 3pm ET.</a>
+				  </p>
+
+				  <p>
+				    Come listen.
+				  
+				    And maybe tell your own.
+				  </p>
+
+				
+					<p>
+					— Katie
+				</p>
+				
+                
+            </div>
+
+            <div class="share-section">
+                <div class="share-title">Share this post:</div>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/intent/tweet?url=YOUR_URL&text=What%20Is%20Elikonas" target="_blank" class="share-btn share-twitter">
+                        <span>𝕏</span> Share on X
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=YOUR_URL" target="_blank" class="share-btn share-linkedin">
+                        <span>in</span> Share on LinkedIn
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_URL" target="_blank" class="share-btn share-facebook">
+                        <span>f</span> Share on Facebook
+                    </a>
+                    <a href="mailto:?subject=Check out this article&body=I thought you'd find this interesting: YOUR_URL" class="share-btn share-email">
+                        <span>✉</span> Share via Email
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3>Recent Posts</h3>
+                <div class="related-post">
+                    <div class="related-post-date">February 4, 2026</div>
+                    <a href="post_20260204_what-elikonas-is-not.html">What Elikonas is Not</a>
+                </div>
+                <div class="related-post">
+                    <div class="related-post-date">January 14, 2026</div>
+                    <a href="blog-post-3.html">What is Elikonas</a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Join Our Community</h3>
+                <p style="margin-bottom: 1rem; line-height: 1.6;">
+                    Be the first to know when Elikonas launches and get exclusive updates on the future of education.
+                </p>
+	            <form class="email-signup" action="https://elikonas.us4.list-manage.com/subscribe/post?u=2d3e21399e1d37ecbfa72d7b8&amp;id=750f1fce6a&amp;f_id=001dc2e1f0" method="POST" target="_blank">
+	                <!-- Real email field -->
+	                <input type="email" name="EMAIL" class="email-input" placeholder="Please add your email" required>
+                
+	                <!-- Honeypot field (hidden) - prevents bots from signing up -->
+	                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+	                    <input type="text" name="b_2d3e21399e1d37ecbfa72d7b8_750f1fce6a" tabindex="-1" value="">
+	                </div>
+					
+	                <button type="submit" class="signup-btn">Submit</button>
+			
+	            </form>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.0005;
+                const x = e.clientX * speed;
+                const y = e.clientY * speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Update share buttons with actual URL when deployed
+        document.addEventListener('DOMContentLoaded', function() {
+            const actualURL = encodeURIComponent(window.location.href);
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                const href = btn.getAttribute('href');
+                btn.setAttribute('href', href.replace('YOUR_URL', actualURL));
+            });
+        });
+    </script>
+</body>
+</html>
