@@ -2,403 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<link rel="icon" type="image/png" href="assets/images/favicon.png">
-	<link rel="apple-touch-icon" href="assets/images/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's in a Name?</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #177e89 0%, #084c61 100%);
-            color: white;
-            min-height: 100vh;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(8, 76, 97, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        nav a:hover {
-            color: #ffce57;
-        }
-
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .shape {
-            position: absolute;
-            background: rgba(255, 206, 87, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .shape:nth-child(2) {
-            width: 60px;
-            height: 60px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
-
-        .shape:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 6rem 2rem 4rem 2rem;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 3rem;
-        }
-
-        .post-content {
-            background: rgba(255, 200, 87, 0.1);
-            padding: 3rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 206, 87, 0.3);
-        }
-
-        .post-header {
-            margin-bottom: 2rem;
-        }
-
-        .post-date {
-            color: #ffce57;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .post-title {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .post-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            background: rgba(255, 206, 87, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 6rem;
-        }
-
-        .post-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .post-body {
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .post-body p {
-            margin-bottom: 1.5rem;
-        }
-
-        .post-body h2 {
-            font-size: 1.8rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #ffce57;
-        }
-
-        .post-body h3 {
-            font-size: 1.4rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .post-body ul, .post-body ol {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .post-body li {
-            margin-bottom: 0.2rem;
-        }
-
-        .share-section {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 206, 87, 0.3);
-        }
-
-        .share-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #ffce57;
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .share-twitter {
-            background: #1DA1F2;
-            color: white;
-        }
-
-        .share-linkedin {
-            background: #0A66C2;
-            color: white;
-        }
-
-        .share-facebook {
-            background: #1877F2;
-            color: white;
-        }
-
-        .share-email {
-            background: #EA4335;
-            color: white;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .sidebar-widget {
-            background: rgba(255, 200, 87, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 206, 87, 0.3);
-        }
-
-        .sidebar-widget h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #ffce57;
-        }
-
-        .related-post {
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 206, 87, 0.2);
-        }
-
-        .related-post:last-child {
-            border-bottom: none;
-        }
-
-        .related-post-date {
-            font-size: 0.85rem;
-            color: #ffce57;
-            margin-bottom: 0.3rem;
-        }
-
-        .related-post a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .related-post a:hover {
-            color: #ffce57;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #ffce57;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            transition: gap 0.3s ease;
-        }
-
-        .back-link:hover {
-            gap: 1rem;
-        }
-
-        @media (max-width: 968px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                order: 2;
-            }
-
-            .post-content {
-                order: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-            }
-
-            nav a {
-                font-size: 0.95rem;
-            }
-
-            .container {
-                padding-top: 5rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-
-            .post-content {
-                padding: 1.5rem;
-            }
-
-            .post-title {
-                font-size: 1.8rem;
-            }
-
-            .post-image {
-                height: 250px;
-                font-size: 4rem;
-            }
-
-            .share-buttons {
-                flex-direction: column;
-            }
-
-            .share-btn {
-                justify-content: center;
-            }
-        }
-		
-        .cta-section {
-            text-align: center;
-            margin-bottom: 2rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .email-signup {
-            display: flex;
-            gap: .5rem;
-            margin-bottom: 2rem;
-            max-width: 200px;
-        }
-
-        .email-input {
-            flex: 1;
-            padding: .5rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-        }
-
-        .signup-btn {
-            padding: .5rem;
-            background: linear-gradient(45deg, #db3a34, #ff6b35);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(219, 58, 52, 0.3);
-        }
-
-        .signup-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(219, 58, 52, 0.4);
-            background: linear-gradient(45deg, #ff6b35, #db3a34);
-        }
-    </style>
+	<link rel="stylesheet" href="global-styles.css">
+    <link rel="stylesheet" href="post-styles.css">
 </head>
 <body>
     <nav>
@@ -436,7 +44,7 @@
 					Not just how it sounded — but what it carried with it.
 				</p>
 				<p>
-					Names shape perception. They hint at values. They tell a story long before anyone reads a mission statement or sees a product demo. I wanted the name Elikonas to reflect not only what we’re building, but why we’re building it.
+					Names shape perception. They hint at values. They tell a story long before anyone reads a mission statement or sees a product demo. I wanted the name Elikonas to reflect not only what we're building, but why we're building it.
 				</p>
 				<p>
 					That story begins in Greek mythology.
@@ -444,7 +52,7 @@
 				
 				<h2>Mount Elikonas and the Nine Muses</h2>
 				<p>
-					Most people know that the Greek gods ruled from Mount Olympus. What’s less well known is that before Olympus, their center of gravity was Mount Elikonas (also spelled Helicon).
+					Most people know that the Greek gods ruled from Mount Olympus. What's less well known is that before Olympus, their center of gravity was Mount Elikonas (also spelled Helicon).
 				</p>
 				<p>
 					Mount Elikonas was associated not with power or conquest, but with learning, creativity, and inspiration.
@@ -465,7 +73,7 @@
 					When Apollo saw how deeply they loved learning — not out of obligation, but out of joy — he brought them to Mount Elikonas, a place where they could continue to grow, create, and inspire freely.
 				</p>
 				
-				<p>The muses didn’t just learn.</p>
+				<p>The muses didn't just learn.</p>
 				
 				<p>They <b>inspired the love of learning in others</b>.</p>
 				
@@ -482,7 +90,7 @@
 				</p>
 				
 				<p>
-					We’re building a platform for people who want to shape their own paths, discover what fascinates them, and build lives of purpose around the ideas they care about most.
+					We're building a platform for people who want to shape their own paths, discover what fascinates them, and build lives of purpose around the ideas they care about most.
 				</p>
 				Calling it <i>Elikonas</i> felt like an invitation to that tradition.
 				</p>
@@ -498,7 +106,7 @@
 					
 
 					<ul>
-					<li>The “E” emrges from the shadow of a mountain — <b>Mount Elikonas itself</b></li>
+					<li>The "E" emrges from the shadow of a mountain — <b>Mount Elikonas itself</b></li>
 
 					<li>The sun rising behind it represents <b>Apollo</b></li>
 
@@ -512,7 +120,7 @@
 					<h2>Designing for Accessibility</h2>
 					
 					<p>
-					Symbolism wasn’t the only design consideration.
+					Symbolism wasn't the only design consideration.
 					</p>
 
 					<p>
@@ -550,7 +158,7 @@
 				</p>
 				
 				<p>
-					<b>Knowledge, creativity, and progress don’t come from force.
+					<b>Knowledge, creativity, and progress don't come from force.
 					They come from fascination.</b>
 				</p>
 				
@@ -607,23 +215,17 @@
                     Be the first to know when Elikonas launches and get exclusive updates on the future of education.
                 </p>
 	            <form class="email-signup" action="https://elikonas.us4.list-manage.com/subscribe/post?u=2d3e21399e1d37ecbfa72d7b8&amp;id=750f1fce6a&amp;f_id=001dc2e1f0" method="POST" target="_blank">
-	                <!-- Real email field -->
 	                <input type="email" name="EMAIL" class="email-input" placeholder="Please add your email" required>
-                
-	                <!-- Honeypot field (hidden) - prevents bots from signing up -->
 	                <div style="position: absolute; left: -5000px;" aria-hidden="true">
 	                    <input type="text" name="b_2d3e21399e1d37ecbfa72d7b8_750f1fce6a" tabindex="-1" value="">
 	                </div>
-					
 	                <button type="submit" class="signup-btn">Submit</button>
-			
 	            </form>
             </div>
         </aside>
     </div>
 
     <script>
-        // Add some interactive elements
         document.addEventListener('mousemove', (e) => {
             const shapes = document.querySelectorAll('.shape');
             shapes.forEach((shape, index) => {
@@ -634,7 +236,6 @@
             });
         });
 
-        // Update share buttons with actual URL when deployed
         document.addEventListener('DOMContentLoaded', function() {
             const actualURL = encodeURIComponent(window.location.href);
             document.querySelectorAll('.share-btn').forEach(btn => {

@@ -1,0 +1,389 @@
+/* ============================================================
+   post-styles.css
+   Styles for all blog post pages.
+   Also requires: global-styles.css
+   ============================================================ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+}
+
+.post-content {
+    background: rgba(255, 200, 87, 0.1);
+    padding: 3rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 206, 87, 0.3);
+}
+
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.post-date {
+    color: #ffce57;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.post-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.post-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    background: rgba(255, 206, 87, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+}
+
+.post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.post-body {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.post-body p {
+    margin-bottom: 1.5rem;
+}
+
+.post-body h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #ffce57;
+}
+
+.post-body h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.post-body ul, .post-body ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.post-body li {
+    margin-bottom: 0.2rem;
+}
+
+.post-body blockquote {
+    border-left: 4px solid #ffce57;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.post-body hr {
+    border: none;
+    border-top: 1px solid rgba(255, 206, 87, 0.3);
+    margin: 2rem 0;
+}
+
+/* Episode tag badge */
+.episode-tag {
+    display: inline-block;
+    background: rgba(255, 206, 87, 0.2);
+    border: 1px solid rgba(255, 206, 87, 0.5);
+    color: #ffce57;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ─── Link Button Styles ─── */
+.btn-link {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: #ffce57;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid #ffce57;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+}
+
+.btn-link:hover {
+    background: #ffce57;
+    color: #084c61;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 206, 87, 0.35);
+}
+
+.btn-link:active {
+    transform: translateY(-1px);
+}
+
+.btn-link-solid {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: linear-gradient(45deg, #ffce57, #f5a623);
+    color: #084c61;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 15px rgba(255, 206, 87, 0.3);
+}
+
+.btn-link-solid:hover {
+    background: linear-gradient(45deg, #f5a623, #ffce57);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 206, 87, 0.45);
+    color: #084c61;
+}
+/* ─── End Link Button Styles ─── */
+
+/* CTA boxes */
+.cta-box {
+    background: rgba(255, 206, 87, 0.15);
+    border: 1px solid rgba(255, 206, 87, 0.4);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    text-align: center;
+}
+
+.cta-box h3 {
+    color: #ffce57;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.cta-box p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* About the show box */
+.about-show {
+    background: rgba(8, 76, 97, 0.4);
+    border: 1px solid rgba(255, 206, 87, 0.25);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.about-show h3 {
+    color: #ffce57;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.about-show p {
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* Share section */
+.share-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 206, 87, 0.3);
+}
+
+.share-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ffce57;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.share-twitter  { background: #1DA1F2; color: white; }
+.share-linkedin { background: #0A66C2; color: white; }
+.share-facebook { background: #1877F2; color: white; }
+.share-email    { background: #EA4335; color: white; }
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sidebar-widget {
+    background: rgba(255, 200, 87, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 206, 87, 0.3);
+}
+
+.sidebar-widget h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #ffce57;
+}
+
+.related-post {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 206, 87, 0.2);
+}
+
+.related-post:last-child {
+    border-bottom: none;
+}
+
+.related-post-date {
+    font-size: 0.85rem;
+    color: #ffce57;
+    margin-bottom: 0.3rem;
+}
+
+.related-post a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.related-post a:hover {
+    color: #ffce57;
+}
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffce57;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    transition: gap 0.3s ease;
+}
+
+.back-link:hover {
+    gap: 1rem;
+}
+
+/* Email signup (sidebar) */
+.cta-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email-signup {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 2rem;
+    max-width: 200px;
+}
+
+.email-input {
+    flex: 1;
+    padding: .5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.signup-btn {
+    padding: .5rem;
+    background: linear-gradient(45deg, #db3a34, #ff6b35);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(219, 58, 52, 0.3);
+}
+
+.signup-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(219, 58, 52, 0.4);
+    background: linear-gradient(45deg, #ff6b35, #db3a34);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .container { grid-template-columns: 1fr; }
+    .sidebar { order: 2; }
+    .post-content { order: 1; }
+}
+
+@media (max-width: 768px) {
+    .container { padding-top: 5rem; padding-left: 1rem; padding-right: 1rem; }
+    .post-content { padding: 1.5rem; }
+    .post-title { font-size: 1.8rem; }
+    .post-image { height: 250px; font-size: 4rem; }
+    .share-buttons { flex-direction: column; }
+    .share-btn { justify-content: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+}
