@@ -68,6 +68,12 @@
     margin-bottom: 1.5rem;
 }
 
+/* Only styles links inside the <main> tag */
+.post-body a:link {
+    color: #ffc857;
+}
+
+
 .post-body h2 {
     font-size: 1.8rem;
     margin-top: 2rem;
