@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories - Elikonas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-styles.css">
+    <link rel="stylesheet" href="blog-styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+			<li><a href="stories.html">Stories</a></li>
+        </ul>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="blog-header">
+            <h1>Stories</h1>
+            <p>The stories that people share about their education journeys</p>
+        </div>
+
+        <div class="blog-grid">
+
+    <!-- Add more blog cards as needed -->
+            
+            
+            <!-- Blog Card 2 -->
+            <div class="blog-card" onclick="location.href='post_20260326_troy-kindle-college-story.html'">
+                <div class="blog-card-image">
+                    <img src="assets/images/post-image_20260326.png" alt="Blog post image">
+                </div>
+                <div class="blog-card-content">
+                    <div class="blog-card-date">March 26, 2026</div>
+                    <h2 class="blog-card-title">
+                        <a href="post_20260326_troy-kindle-college-story.html">A College Story: Troy Kindle's Lifelong Learning Journey</a>
+                    </h2>
+                    <p class="blog-card-summary">
+                        Episode 2 recap: Troy Kindle shares how he started college, took a detour after a family tragedy, and eventually went back later in life to finish.
+                    </p>
+                    <a href="post_20260326_troy-kindle-college-story.html" class="blog-card-link">Read more →</a>
+                </div>
+            </div>
+
+
+            <!-- Blog Card 5 -->
+            <div class="blog-card" onclick="location.href='post_20260323_isara-witten-college-story.html'">
+                <div class="blog-card-image">
+                    <img src="assets/images/post-image_20260323.png" alt="Isara Witten — What's Your College Story? Episode 1">
+                </div>
+                <div class="blog-card-content">
+                    <div class="blog-card-date">March 23, 2026</div>
+                    <h2 class="blog-card-title">
+                        <a href="post_20260323_isara-witten-college-story.html">She Couldn't Always See the Board, But Never Lost Sight of Her Goal</a>
+                    </h2>
+                    <p class="blog-card-summary">
+                        Episode 1 recap: Isara Witten, a visually impaired CS student and AI researcher, shares her non-linear path through higher education.
+                    </p>
+                    <a href="post_20260323_isara-witten-college-story.html" class="blog-card-link">Read more →</a>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.0005;
+                const x = e.clientX * speed;
+                const y = e.clientY * speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
