@@ -104,6 +104,18 @@
     margin: 2rem 0;
 }
 
+/* Styling an unvisited link */
+a:link {
+  color: #ffc857;
+  text-decoration: none;
+}
+
+/* Must follow the LVHA order */
+a:visited { color: #084c61; }
+a:hover   { text-decoration: underline; }
+a:active  { color: #db3a34; }
+
+
 /* Episode tag badge */
 .episode-tag {
     display: inline-block;
