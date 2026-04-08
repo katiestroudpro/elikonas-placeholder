@@ -111,7 +111,7 @@ a:link {
 }
 
 /* Must follow the LVHA order */
-a:visited { color: #084c61; }
+a:visited { color: #db3a34; }
 a:hover   { text-decoration: underline; }
 a:active  { color: #db3a34; }
 
