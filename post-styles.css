@@ -73,6 +73,16 @@
     color: #ffc857;
 }
 
+.post-body a.btn-link-solid,
+.post-body a.btn-link-solid:link,
+.post-body a.btn-link-solid:visited {
+    color: #084c61;
+}
+
+.post-body a.btn-link:link,
+.post-body a.btn-link:visited {
+    color: #ffce57;
+}
 
 .post-body h2 {
     font-size: 1.8rem;
