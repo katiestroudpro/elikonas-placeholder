@@ -1,250 +1,761 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elikonas — Platform Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap');
-@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
-.d1{animation:blink 1.3s .0s infinite}
-.d2{animation:blink 1.3s .2s infinite}
-.d3{animation:blink 1.3s .4s infinite}
-*{box-sizing:border-box;margin:0;padding:0}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-page:    #f0eeea;
+    --bg-card:    #ffffff;
+    --bg-input:   #f5f4f1;
+    --bg-tag:     #eeedea;
+    --border:     #dddad5;
+    --border-med: #c4c0ba;
+    --text:       #323031;
+    --text-muted: #706d6e;
+    --text-hint:  #9e9a97;
+    --teal-dk:    #084c61;
+    --teal:       #177e89;
+    --gold:       #ffc857;
+    --red:        #db3a34;
+    --green:      #2a9d5c;
+    --ff: 'DM Sans', sans-serif;
+    --fs: 'Lora', serif;
+  }
+
+  body { font-family: var(--ff); background: var(--bg-page); color: var(--text); min-height: 100vh; }
+
+  /* ── NAV ── */
+  .nav {
+    background: var(--teal-dk);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; height: 52px; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 8px; }
+  .nav-logo {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gold); color: var(--teal-dk);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; font-family: var(--fs);
+  }
+  .nav-name { color: #fff; font-weight: 500; font-size: 17px; font-family: var(--fs); letter-spacing: -.2px; }
+  .nav-tabs { display: flex; }
+  .nav-tab {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: rgba(255,255,255,.55); padding: 0 18px; height: 52px;
+    cursor: pointer; font-size: 13.5px; font-family: var(--ff); font-weight: 400;
+    transition: color .15s;
+  }
+  .nav-tab.active { color: #fff; border-bottom-color: var(--gold); font-weight: 600; }
+  .nav-user { display: flex; align-items: center; gap: 8px; }
+  .nav-uname { font-size: 12.5px; color: rgba(255,255,255,.6); }
+  .nav-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--teal); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11.5px; font-weight: 600;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 28px; min-height: calc(100vh - 52px); }
+  .screen.active { display: block; }
+  .inner { max-width: 900px; margin: 0 auto; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 26px;
+  }
+  .card + .card { margin-top: 10px; }
+
+  /* ── PROFILE ── */
+  .profile-header { display: flex; align-items: flex-start; gap: 22px; margin-bottom: 22px; }
+  .avatar-lg {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--teal-dk); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 21px; font-weight: 600; flex-shrink: 0; font-family: var(--fs);
+  }
+  .profile-info { flex: 1; }
+  .profile-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+  .profile-name { font-size: 22px; font-weight: 600; font-family: var(--fs); color: var(--text); }
+  .badge-founding {
+    font-size: 11.5px; background: rgba(255,200,87,.18);
+    color: #7a5a00; border: 1px solid rgba(255,200,87,.5);
+    padding: 3px 10px; border-radius: 12px; font-weight: 600;
+  }
+  .profile-sub { font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px; }
+  .profile-stats { display: flex; gap: 26px; }
+  .stat-num { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .stat-lbl { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+
+  .ring-wrap { text-align: center; flex-shrink: 0; }
+
+  .record-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+  }
+  .record-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .btn-row { display: flex; gap: 8px; }
+  .btn-outline {
+    background: none; border: 1px solid var(--teal); color: var(--teal);
+    border-radius: 7px; padding: 6px 14px; font-size: 12.5px;
+    cursor: pointer; font-family: var(--ff);
+  }
+  .btn-solid {
+    background: var(--teal); color: #fff; border: none;
+    border-radius: 7px; padding: 6px 14px; font-size: 12.5px;
+    font-weight: 500; cursor: pointer; font-family: var(--ff);
+  }
+
+  .edu-list { display: flex; flex-direction: column; gap: 8px; }
+  .edu-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .edu-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .edu-icon.completed { background: rgba(42,157,92,.1); color: var(--green); }
+  .edu-icon.inprogress { background: rgba(23,126,137,.12); color: var(--teal); }
+  .edu-icon.planned { background: var(--bg-tag); color: var(--text-hint); }
+  .edu-body { flex: 1; }
+  .edu-name { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .edu-meta { display: flex; align-items: center; gap: 8px; }
+  .edu-provider { font-size: 12px; color: var(--text-muted); }
+  .tag {
+    font-size: 11px; background: var(--bg-tag); color: var(--text-muted);
+    padding: 1px 7px; border-radius: 8px;
+  }
+  .progress-row { margin-top: 7px; display: flex; align-items: center; gap: 10px; }
+  .progress-track {
+    flex: 1; height: 4px; background: var(--bg-tag); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; background: var(--teal); border-radius: 2px; }
+  .progress-pct { font-size: 11.5px; color: var(--teal); font-weight: 500; min-width: 30px; }
+  .status-badge {
+    font-size: 12px; font-weight: 500;
+    padding: 4px 11px; border-radius: 10px; white-space: nowrap;
+  }
+  .status-badge.completed { color: var(--green); background: rgba(42,157,92,.1); }
+  .status-badge.inprogress { color: #8a6800; background: rgba(255,200,87,.18); }
+  .status-badge.planned { color: var(--text-hint); background: var(--bg-tag); }
+
+  /* ── AI GUIDE ── */
+  .aig-layout { max-width: 800px; margin: 0 auto; display: flex; gap: 20px; }
+  .aig-sidebar { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+  .aig-eli-head {
+    display: flex; align-items: center; gap: 9px;
+    padding-bottom: 12px; margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eli-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--teal-dk); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; font-family: var(--fs); flex-shrink: 0;
+  }
+  .eli-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .eli-status { font-size: 11.5px; color: var(--green); }
+  .aig-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+  .try-label {
+    font-size: 11px; font-weight: 600; color: var(--text-hint);
+    letter-spacing: .4px; margin-bottom: 6px;
+  }
+  .suggestion-btn {
+    display: block; width: 100%; text-align: left;
+    background: var(--bg-input); border: 1px solid var(--border);
+    border-radius: 7px; padding: 7px 10px;
+    font-size: 12.5px; color: var(--text); cursor: pointer;
+    margin-bottom: 5px; font-family: var(--ff);
+    transition: border-color .15s;
+  }
+  .suggestion-btn:hover { border-color: var(--teal); }
+  .pathway-label {
+    font-size: 11px; font-weight: 600; color: var(--text-hint);
+    letter-spacing: .4px; margin-bottom: 8px;
+  }
+  .pathway-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; border-bottom: 1px solid var(--border);
+  }
+  .pathway-item:last-child { border-bottom: none; }
+  .pathway-item-name { font-size: 12px; color: var(--text); flex: 1; padding-right: 6px; }
+  .pathway-item-status { font-size: 11.5px; font-weight: 600; }
+  .ps-done { color: var(--green); }
+  .ps-prog { color: var(--teal); }
+  .ps-plan { color: var(--text-hint); }
+
+  .aig-chat {
+    flex: 1; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 12px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .chat-messages {
+    flex: 1; padding: 20px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 12px;
+    max-height: 460px; min-height: 200px;
+  }
+  .msg-row { display: flex; gap: 8px; }
+  .msg-row.user { justify-content: flex-end; }
+  .msg-eli-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--teal-dk); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+    font-family: var(--fs);
+  }
+  .msg-bubble {
+    max-width: 78%; padding: 11px 14px;
+    font-size: 13.5px; line-height: 1.65;
+  }
+  .msg-bubble.eli {
+    background: var(--bg-input); color: var(--text);
+    border-radius: 14px 14px 14px 3px;
+  }
+  .msg-bubble.user {
+    background: var(--teal); color: #fff;
+    border-radius: 14px 14px 3px 14px;
+  }
+  .typing-indicator {
+    display: flex; gap: 5px; align-items: center;
+    padding: 12px 14px; background: var(--bg-input);
+    border-radius: 14px 14px 14px 3px;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--text-hint); display: inline-block;
+  }
+  @keyframes blink { 0%,100%{opacity:.25} 50%{opacity:1} }
+  .dot:nth-child(1){animation:blink 1.3s 0s infinite}
+  .dot:nth-child(2){animation:blink 1.3s .2s infinite}
+  .dot:nth-child(3){animation:blink 1.3s .4s infinite}
+
+  .chat-input-row {
+    padding: 12px 16px; border-top: 1px solid var(--border);
+    display: flex; gap: 9px;
+  }
+  .chat-input {
+    flex: 1; font-size: 13.5px; padding: 9px 13px;
+    border: 1px solid var(--border-med); border-radius: 8px;
+    outline: none; background: var(--bg-input); color: var(--text);
+    font-family: var(--ff);
+  }
+  .chat-input:focus { border-color: var(--teal); }
+  .chat-send {
+    background: var(--teal); color: #fff; border: none;
+    border-radius: 8px; padding: 9px 18px;
+    font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: var(--ff);
+  }
+  .chat-send:disabled { opacity: .5; cursor: default; }
+
+  /* ── COMMUNITY ── */
+  .community-inner { max-width: 820px; margin: 0 auto; }
+  .community-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 18px;
+  }
+  .community-title { font-size: 24px; font-weight: 600; font-family: var(--fs); margin-bottom: 4px; }
+  .community-sub { font-size: 13.5px; color: var(--text-muted); }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text-muted); border-radius: 7px; padding: 5px 12px;
+    font-size: 12px; cursor: pointer; font-family: var(--ff);
+    transition: all .15s;
+  }
+  .filter-btn.active {
+    background: var(--teal); color: #fff; border-color: var(--teal);
+  }
+  .compose-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; margin-bottom: 16px;
+  }
+  .compose-inner { display: flex; gap: 10px; align-items: flex-start; }
+  .compose-textarea {
+    flex: 1; border: none; outline: none; resize: none;
+    font-size: 13.5px; line-height: 1.65; color: var(--text);
+    background: transparent; min-height: 52px; font-family: var(--ff);
+  }
+  .compose-footer {
+    display: flex; justify-content: flex-end;
+    padding-top: 8px; border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .musing-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; margin-bottom: 10px;
+  }
+  .musing-header { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+  .musing-avatar {
+    width: 36px; height: 36px; border-radius: 50%; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .musing-author { font-weight: 600; font-size: 14px; color: var(--text); }
+  .musing-badge {
+    font-size: 11.5px; background: rgba(23,126,137,.1);
+    color: var(--teal); padding: 2px 8px; border-radius: 8px; font-weight: 500;
+  }
+  .musing-role { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .musing-time { font-size: 11.5px; color: var(--text-hint); margin-left: auto; }
+  .musing-body { font-size: 13.5px; line-height: 1.7; color: var(--text); margin-bottom: 12px; }
+  .musing-footer {
+    display: flex; gap: 16px;
+    border-top: 1px solid var(--border); padding-top: 10px;
+  }
+  .reaction-btn {
+    background: none; border: none; cursor: pointer;
+    font-size: 13px; display: flex; align-items: center;
+    gap: 5px; padding: 0; font-family: var(--ff);
+    color: var(--text-muted);
+    transition: color .15s;
+  }
+  .reaction-btn.liked { color: var(--red); font-weight: 500; }
 </style>
+</head>
+<body>
 
-<div id="root"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">E</div>
+    <span class="nav-name">elikonas</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('profile',this)">My Profile</button>
+    <button class="nav-tab" onclick="showScreen('aiguide',this)">AI Guide</button>
+    <button class="nav-tab" onclick="showScreen('community',this)">Community</button>
+  </div>
+  <div class="nav-user">
+    <span class="nav-uname">Alex Lee</span>
+    <div class="nav-avatar">AL</div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ PROFILE ═══════════════════════════════ -->
+<div id="screen-profile" class="screen active">
+<div class="inner">
+
+  <!-- Header card -->
+  <div class="card" style="margin-bottom:18px;">
+    <div style="display:flex;gap:22px;align-items:flex-start;">
+      <div class="avatar-lg">AL</div>
+      <div style="flex:1;">
+        <div class="profile-name-row">
+          <span class="profile-name">Alex Lee</span>
+          <span class="badge-founding">★ Founding Member</span>
+        </div>
+        <div class="profile-sub">Career changer · Data & AI · Technology · Business</div>
+        <div class="profile-stats">
+          <div><div class="stat-num">5</div><div class="stat-lbl">Total ed-units</div></div>
+          <div><div class="stat-num">2</div><div class="stat-lbl">Completed</div></div>
+          <div><div class="stat-num">1</div><div class="stat-lbl">In progress</div></div>
+          <div><div class="stat-num">2</div><div class="stat-lbl">Planned</div></div>
+        </div>
+      </div>
+      <!-- Ring -->
+      <div class="ring-wrap">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="40" fill="none" stroke="#e2dedb" stroke-width="7"/>
+          <circle cx="48" cy="48" r="40" fill="none" stroke="#177e89" stroke-width="7"
+            stroke-dasharray="251.33" stroke-dashoffset="150.8"
+            stroke-linecap="round" transform="rotate(-90 48 48)"/>
+          <text x="48" y="44" text-anchor="middle" font-size="17" font-weight="700" fill="#323031" font-family="'DM Sans',sans-serif">40%</text>
+          <text x="48" y="61" text-anchor="middle" font-size="11" fill="#9e9a97" font-family="'DM Sans',sans-serif">pathway</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Record header -->
+  <div class="record-header">
+    <span class="record-title">Learning record</span>
+    <div class="btn-row">
+      <button class="btn-outline">Share record</button>
+      <button class="btn-solid">+ Add learning</button>
+    </div>
+  </div>
+
+  <!-- Ed-units -->
+  <div class="edu-list">
+    <div class="edu-item">
+      <div class="edu-icon inprogress">▶</div>
+      <div class="edu-body">
+        <div class="edu-name">Google Data Analytics Certificate</div>
+        <div class="edu-meta">
+          <span class="edu-provider">Coursera</span>
+          <span class="tag">Data & AI</span>
+        </div>
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" style="width:68%"></div></div>
+          <span class="progress-pct">68%</span>
+        </div>
+      </div>
+      <span class="status-badge inprogress">in progress</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-icon completed">✓</div>
+      <div class="edu-body">
+        <div class="edu-name">SQL for Data Science</div>
+        <div class="edu-meta">
+          <span class="edu-provider">UC Davis · Coursera</span>
+          <span class="tag">Data & AI</span>
+        </div>
+      </div>
+      <span class="status-badge completed">completed</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-icon completed">✓</div>
+      <div class="edu-body">
+        <div class="edu-name">Introduction to Python</div>
+        <div class="edu-meta">
+          <span class="edu-provider">MIT OpenCourseWare</span>
+          <span class="tag">Technology</span>
+        </div>
+      </div>
+      <span class="status-badge completed">completed</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-icon planned">○</div>
+      <div class="edu-body">
+        <div class="edu-name">Data Visualization with Tableau</div>
+        <div class="edu-meta">
+          <span class="edu-provider">Tableau Learning</span>
+          <span class="tag">Data & AI</span>
+        </div>
+      </div>
+      <span class="status-badge planned">planned</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-icon planned">○</div>
+      <div class="edu-body">
+        <div class="edu-name">Business Communication for Data Professionals</div>
+        <div class="edu-meta">
+          <span class="edu-provider">LinkedIn Learning</span>
+          <span class="tag">Business</span>
+        </div>
+      </div>
+      <span class="status-badge planned">planned</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════ AI GUIDE ═══════════════════════════════ -->
+<div id="screen-aiguide" class="screen">
+<div class="aig-layout">
+
+  <!-- Sidebar -->
+  <div class="aig-sidebar">
+    <div class="card">
+      <div class="aig-eli-head">
+        <div class="eli-avatar">E</div>
+        <div>
+          <div class="eli-name">Eli</div>
+          <div class="eli-status">● Online</div>
+        </div>
+      </div>
+      <p class="aig-desc">I know your profile, your pace, and your goals. I can help you plan next steps, compare programs, or think through where you're headed.</p>
+      <div class="try-label">TRY ASKING</div>
+      <button class="suggestion-btn" onclick="sendSuggestion('What should I learn next?')">What should I learn next?</button>
+      <button class="suggestion-btn" onclick="sendSuggestion('Am I on track for a data career?')">Am I on track for a data career?</button>
+      <button class="suggestion-btn" onclick="sendSuggestion('How long until I\'m job-ready?')">How long until I'm job-ready?</button>
+    </div>
+
+    <div class="card">
+      <div class="pathway-label">ALEX'S PATHWAY</div>
+      <div class="pathway-item">
+        <span class="pathway-item-name">SQL for Data Science</span>
+        <span class="pathway-item-status ps-done">✓</span>
+      </div>
+      <div class="pathway-item">
+        <span class="pathway-item-name">Intro to Python</span>
+        <span class="pathway-item-status ps-done">✓</span>
+      </div>
+      <div class="pathway-item">
+        <span class="pathway-item-name">Google Data Analytics</span>
+        <span class="pathway-item-status ps-prog">68%</span>
+      </div>
+      <div class="pathway-item">
+        <span class="pathway-item-name">Data Viz with Tableau</span>
+        <span class="pathway-item-status ps-plan">→</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div class="aig-chat">
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg-row">
+        <div class="msg-eli-avatar">E</div>
+        <div class="msg-bubble eli">Hi Alex! I'm Eli — your education guide. You're 68% through the Google Data Analytics Certificate, which puts you close to a real career milestone. You've also got a solid Python and SQL base already. What's on your mind today — pathway planning, or something specific about your next step?</div>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" placeholder="Ask Eli about your learning path..." onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send" id="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════ COMMUNITY ═══════════════════════════════ -->
+<div id="screen-community" class="screen">
+<div class="community-inner">
+
+  <div class="community-header">
+    <div>
+      <div class="community-title">Community musings</div>
+      <div class="community-sub">Real stories from learners on their own paths</div>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterMusings('All',this)">All</button>
+      <button class="filter-btn" onclick="filterMusings('Data & AI',this)">Data & AI</button>
+      <button class="filter-btn" onclick="filterMusings('Technology',this)">Technology</button>
+      <button class="filter-btn" onclick="filterMusings('Business',this)">Business</button>
+      <button class="filter-btn" onclick="filterMusings('Healthcare',this)">Healthcare</button>
+      <button class="filter-btn" onclick="filterMusings('Trades',this)">Trades</button>
+    </div>
+  </div>
+
+  <!-- Compose -->
+  <div class="compose-card">
+    <div class="compose-inner">
+      <div class="musing-avatar" style="background:#084c61;">AL</div>
+      <textarea class="compose-textarea" id="compose-input" placeholder="Share something from your learning journey..."></textarea>
+    </div>
+    <div class="compose-footer">
+      <button class="btn-solid" onclick="postMusing()">Post musing</button>
+    </div>
+  </div>
+
+  <!-- Feed -->
+  <div id="musing-feed">
+    <div class="musing-card" data-badge="UX Design">
+      <div class="musing-header">
+        <div class="musing-avatar" style="background:#6340cc;">JM</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="musing-author">Jordan M.</span>
+            <span class="musing-badge">UX Design</span>
+          </div>
+          <div class="musing-role">Career changer → UX Design</div>
+        </div>
+        <span class="musing-time">2h ago</span>
+      </div>
+      <div class="musing-body">Just passed my Google UX Design final project review! Two years ago I was working retail and had no idea what UX even meant. The pathway builder pointed me here and I'm genuinely glad it did.</div>
+      <div class="musing-footer">
+        <button class="reaction-btn" onclick="toggleLike(this,47)"><span class="heart">♡</span> <span class="like-count">47</span> likes</button>
+        <button class="reaction-btn">○ 3 comments</button>
+      </div>
+    </div>
+
+    <div class="musing-card" data-badge="Data & AI">
+      <div class="musing-header">
+        <div class="musing-avatar" style="background:#177e89;">PS</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="musing-author">Priya S.</span>
+            <span class="musing-badge">Data & AI</span>
+          </div>
+          <div class="musing-role">Healthcare → Data Analytics</div>
+        </div>
+        <span class="musing-time">5h ago</span>
+      </div>
+      <div class="musing-body">Hot take: the SQL for Data Science course from UC Davis is way better than most paid bootcamp content. Free, rigorous, and you actually build things. Eli found it for me and I almost skipped it.</div>
+      <div class="musing-footer">
+        <button class="reaction-btn" onclick="toggleLike(this,31)"><span class="heart">♡</span> <span class="like-count">31</span> likes</button>
+        <button class="reaction-btn">○ 7 comments</button>
+      </div>
+    </div>
+
+    <div class="musing-card" data-badge="Business">
+      <div class="musing-header">
+        <div class="musing-avatar" style="background:#db3a34;">MW</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="musing-author">Marcus W.</span>
+            <span class="musing-badge">Business</span>
+          </div>
+          <div class="musing-role">First-generation learner</div>
+        </div>
+        <span class="musing-time">1d ago</span>
+      </div>
+      <div class="musing-body">The thing nobody tells you about career changing at 34 with two kids: it's possible but it takes a system. Having a record that tracks every step means nothing gets lost. That matters more than I expected.</div>
+      <div class="musing-footer">
+        <button class="reaction-btn" onclick="toggleLike(this,89)"><span class="heart">♡</span> <span class="like-count">89</span> likes</button>
+        <button class="reaction-btn">○ 12 comments</button>
+      </div>
+    </div>
+
+    <div class="musing-card" data-badge="Business">
+      <div class="musing-header">
+        <div class="musing-avatar" style="background:#8a6800;">SK</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="musing-author">Sun-Yi K.</span>
+            <span class="musing-badge">Business</span>
+          </div>
+          <div class="musing-role">Trades → Project Management</div>
+        </div>
+        <span class="musing-time">2d ago</span>
+      </div>
+      <div class="musing-body">Finished my PMP prep course last night. Three years of construction experience, now I have the credential to go with it. Elikonas was the first place that treated my field experience as real learning.</div>
+      <div class="musing-footer">
+        <button class="reaction-btn" onclick="toggleLike(this,64)"><span class="heart">♡</span> <span class="like-count">64</span> likes</button>
+        <button class="reaction-btn">○ 5 comments</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
 <script>
-const {useState,useRef,useEffect}=React;
-const B={dt:'#084c61',t:'#177e89',r:'#db3a34',g:'#ffc857',ch:'#323031'};
-const ff=`'DM Sans',sans-serif`;
-const fs=`'Lora',serif`;
-
-function TopBar({active,set}){
-  const tabs=['My Profile','AI Guide','Community'];
-  return React.createElement('div',{style:{fontFamily:ff,background:B.dt,display:'flex',alignItems:'center',gap:0,padding:'0 28px',height:52,justifyContent:'space-between'}},
-    React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
-      React.createElement('div',{style:{width:28,height:28,borderRadius:'50%',background:B.g,display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:700,color:B.dt,fontFamily:fs}},'E'),
-      React.createElement('span',{style:{color:'white',fontWeight:500,fontSize:17,fontFamily:fs,letterSpacing:'-.2px'}},'elikonas')
-    ),
-    React.createElement('div',{style:{display:'flex',gap:0}},
-      tabs.map(t=>React.createElement('button',{key:t,onClick:()=>set(t),style:{background:'none',border:'none',borderBottom:active===t?`2px solid ${B.g}`:'2px solid transparent',color:active===t?'white':'rgba(255,255,255,.55)',padding:'0 18px',height:52,cursor:'pointer',fontSize:13.5,fontWeight:active===t?600:400,fontFamily:ff}},t))
-    ),
-    React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
-      React.createElement('div',{style:{fontSize:12.5,color:'rgba(255,255,255,.6)',fontFamily:ff}},'Alex Lee'),
-      React.createElement('div',{style:{width:30,height:30,borderRadius:'50%',background:B.t,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11.5,fontWeight:600}},'AL')
-    )
-  );
+// ── NAVIGATION ──
+function showScreen(id, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  btn.classList.add('active');
 }
 
-function ProfileScreen(){
-  const units=[
-    {n:'Google Data Analytics Certificate',p:'Coursera',s:'in progress',pct:68,cat:'Data & AI'},
-    {n:'SQL for Data Science',p:'UC Davis · Coursera',s:'completed',pct:100,cat:'Data & AI'},
-    {n:'Introduction to Python',p:'MIT OpenCourseWare',s:'completed',pct:100,cat:'Technology'},
-    {n:'Data Visualization with Tableau',p:'Tableau Learning',s:'planned',pct:0,cat:'Data & AI'},
-    {n:'Business Communication for Data Professionals',p:'LinkedIn Learning',s:'planned',pct:0,cat:'Business'},
-  ];
-  const sc={'in progress':B.g,'completed':'#2a9d5c','planned':'#8a8fa3'};
-  const sb={'in progress':'#ffc85720','completed':'#2a9d5c1a','planned':'#8a8fa315'};
-  const done=units.filter(u=>u.s==='completed').length;
-  const inprog=units.filter(u=>u.s==='in progress').length;
-  const r=40,circ=2*Math.PI*r,pct=Math.round(done/units.length*100),off=circ-(pct/100)*circ;
+// ── AI GUIDE ──
+const SYSTEM = "You are Eli, a warm, knowledgeable AI education guide for Elikonas — a platform helping non-traditional learners find education pathways that fit their real lives. You're talking with Alex, a career changer focused on Data & AI. Alex is 68% through the Google Data Analytics Certificate, has completed SQL for Data Science and Introduction to Python, and has Data Visualization with Tableau planned. Be warm, specific, and practical. Keep responses to 3–5 sentences. Do not use markdown formatting or bullet points.";
 
-  return React.createElement('div',{style:{fontFamily:ff,background:'var(--color-background-tertiary)',minHeight:'calc(100vh - 52px)',padding:28}},
-    React.createElement('div',{style:{maxWidth:900,margin:'0 auto'}},
+let chatHistory = [
+  { role: 'assistant', content: "Hi Alex! I'm Eli — your education guide. You're 68% through the Google Data Analytics Certificate, which puts you close to a real career milestone. You've also got a solid Python and SQL base already. What's on your mind today — pathway planning, or something specific about your next step?" }
+];
 
-      React.createElement('div',{style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:16,padding:'24px 28px',marginBottom:18,display:'flex',gap:24,alignItems:'flex-start'}},
-        React.createElement('div',{style:{width:58,height:58,borderRadius:'50%',background:B.dt,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:21,fontWeight:600,flexShrink:0,fontFamily:fs}},'AL'),
-        React.createElement('div',{style:{flex:1}},
-          React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:5}},
-            React.createElement('h2',{style:{fontSize:22,fontWeight:600,color:B.ch,fontFamily:fs}},'Alex Lee'),
-            React.createElement('span',{style:{fontSize:11.5,background:`${B.g}28`,color:'#8a6800',border:`1px solid ${B.g}66`,padding:'3px 10px',borderRadius:12,fontWeight:600}},'\u2605 Founding Member')
-          ),
-          React.createElement('p',{style:{fontSize:13.5,color:'var(--color-text-secondary)',marginBottom:14}},'Career changer \u00b7 Data & AI \u00b7 Technology \u00b7 Business'),
-          React.createElement('div',{style:{display:'flex',gap:24}},
-            [['Total ed-units',units.length],['Completed',done],['In progress',inprog],['Planned',units.length-done-inprog]].map(([l,v])=>
-              React.createElement('div',{key:l},
-                React.createElement('div',{style:{fontSize:24,fontWeight:700,color:B.ch,lineHeight:1.1}},v),
-                React.createElement('div',{style:{fontSize:11.5,color:'var(--color-text-secondary)',marginTop:1}},l)
-              )
-            )
-          )
-        ),
-        React.createElement('div',{style:{textAlign:'center',flexShrink:0}},
-          React.createElement('svg',{width:96,height:96,viewBox:'0 0 96 96'},
-            React.createElement('circle',{cx:48,cy:48,r:r,fill:'none',stroke:'var(--color-border-tertiary)',strokeWidth:7}),
-            React.createElement('circle',{cx:48,cy:48,r:r,fill:'none',stroke:B.t,strokeWidth:7,strokeDasharray:circ,strokeDashoffset:off,strokeLinecap:'round',transform:'rotate(-90 48 48)'}),
-            React.createElement('text',{x:48,y:44,textAnchor:'middle',fontSize:17,fontWeight:700,fill:B.ch,fontFamily:ff},pct+'%'),
-            React.createElement('text',{x:48,y:61,textAnchor:'middle',fontSize:11,fill:'#888',fontFamily:ff},'pathway')
-          )
-        )
-      ),
-
-      React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}},
-        React.createElement('h3',{style:{fontSize:15,fontWeight:600,color:B.ch}},'Learning record'),
-        React.createElement('div',{style:{display:'flex',gap:8}},
-          React.createElement('button',{style:{background:'none',border:`0.5px solid ${B.t}`,color:B.t,borderRadius:7,padding:'6px 14px',fontSize:12.5,cursor:'pointer',fontFamily:ff}},'Share record'),
-          React.createElement('button',{style:{background:B.t,color:'white',border:'none',borderRadius:7,padding:'6px 14px',fontSize:12.5,fontWeight:500,cursor:'pointer',fontFamily:ff}},'+ Add learning')
-        )
-      ),
-
-      React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:8}},
-        units.map((u,i)=>React.createElement('div',{key:i,style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:10,padding:'14px 18px',display:'flex',alignItems:'center',gap:16}},
-          React.createElement('div',{style:{width:36,height:36,borderRadius:8,background:u.s==='completed'?'#2a9d5c18':u.s==='in progress'?`${B.t}15`:'var(--color-background-secondary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,flexShrink:0}},u.s==='completed'?'✓':u.s==='in progress'?'▶':'○'),
-          React.createElement('div',{style:{flex:1}},
-            React.createElement('div',{style:{fontSize:13.5,fontWeight:500,color:B.ch,marginBottom:3}},u.n),
-            React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
-              React.createElement('span',{style:{fontSize:12,color:'var(--color-text-secondary)'}},u.p),
-              React.createElement('span',{style:{fontSize:11,background:'var(--color-background-secondary)',color:'var(--color-text-secondary)',padding:'1px 7px',borderRadius:8}},u.cat)
-            ),
-            u.s==='in progress'&&React.createElement('div',{style:{marginTop:7,display:'flex',alignItems:'center',gap:10}},
-              React.createElement('div',{style:{flex:1,height:4,background:'var(--color-background-secondary)',borderRadius:2,overflow:'hidden'}},
-                React.createElement('div',{style:{height:'100%',width:`${u.pct}%`,background:B.t,borderRadius:2}})
-              ),
-              React.createElement('span',{style:{fontSize:11.5,color:B.t,fontWeight:500,minWidth:30}},u.pct+'%')
-            )
-          ),
-          React.createElement('span',{style:{fontSize:12,fontWeight:500,color:sc[u.s],background:sb[u.s],padding:'4px 11px',borderRadius:10,whiteSpace:'nowrap'}},u.s)
-        ))
-      )
-    )
-  );
+function sendSuggestion(text) {
+  showScreen('aiguide', document.querySelectorAll('.nav-tab')[1]);
+  document.getElementById('chat-input').value = text;
+  sendMessage();
 }
 
-function AIGuideScreen(){
-  const [msgs,setMsgs]=useState([{r:'a',c:"Hi Alex! I'm Eli — your education guide. You're 68% through the Google Data Analytics Certificate, which puts you close to a real career milestone. You've also got a solid Python and SQL base already. What's on your mind today — pathway planning, or something specific about your next step?"}]);
-  const [input,setInput]=useState('');
-  const [loading,setLoading]=useState(false);
-  const bot=useRef(null);
-  const suggestions=["What should I learn next?","Am I on track for a data career?","How long until I'm job-ready?"];
-  useEffect(()=>{bot.current?.scrollIntoView({behavior:'smooth'})},[msgs,loading]);
-  const send=async(txt)=>{
-    const msg=txt||input;if(!msg.trim()||loading)return;
-    const um={r:'u',c:msg};const next=[...msgs,um];
-    setMsgs(next);setInput('');setLoading(true);
-    try{
-      const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:"You are Eli, a warm, knowledgeable AI education guide for Elikonas — an education marketplace that helps non-traditional learners find pathways that fit their real lives. You're talking with Alex, a career changer focused on Data & AI. Alex is 68% through the Google Data Analytics Certificate, has completed SQL for Data Science and Introduction to Python, and has Data Visualization with Tableau planned. Be warm, specific, and practical. Keep responses to 3-5 sentences. Do not use markdown formatting or bullet points.",messages:next.map(m=>({role:m.r==='u'?'user':'assistant',content:m.c}))})});
-      const d=await res.json();
-      setMsgs(p=>[...p,{r:'a',c:d.content?.[0]?.text||"I'm having a moment — try again?"}]);
-    }catch(e){setMsgs(p=>[...p,{r:'a',c:"Something went wrong. Try again in a moment."}]);}
-    setLoading(false);
-  };
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  document.getElementById('send-btn').disabled = true;
 
-  return React.createElement('div',{style:{fontFamily:ff,background:'var(--color-background-tertiary)',minHeight:'calc(100vh - 52px)',padding:28}},
-    React.createElement('div',{style:{maxWidth:780,margin:'0 auto',display:'flex',gap:20}},
+  chatHistory.push({ role: 'user', content: msg });
+  appendMessage('user', msg);
+  appendTyping();
 
-      React.createElement('div',{style:{width:240,flexShrink:0}},
-        React.createElement('div',{style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:12,padding:16,marginBottom:12}},
-          React.createElement('div',{style:{display:'flex',alignItems:'center',gap:9,marginBottom:12,paddingBottom:12,borderBottom:'0.5px solid var(--color-border-tertiary)'}},
-            React.createElement('div',{style:{width:36,height:36,borderRadius:'50%',background:B.dt,color:B.g,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:700,fontFamily:fs}},'E'),
-            React.createElement('div',null,
-              React.createElement('div',{style:{fontWeight:600,fontSize:13.5,color:B.ch}},'Eli'),
-              React.createElement('div',{style:{fontSize:11.5,color:'#2a9d5c'}},'● Online')
-            )
-          ),
-          React.createElement('p',{style:{fontSize:12.5,color:'var(--color-text-secondary)',lineHeight:1.6,marginBottom:12}},"I know your profile, your pace, and your goals. I can help you plan your next steps, compare programs, or just think through where you're headed."),
-          React.createElement('div',{style:{fontSize:11.5,fontWeight:600,color:'var(--color-text-secondary)',marginBottom:7,letterSpacing:'0.3px'}},'TRY ASKING'),
-          suggestions.map(s=>React.createElement('button',{key:s,onClick:()=>send(s),style:{display:'block',width:'100%',textAlign:'left',background:'var(--color-background-secondary)',border:'none',borderRadius:7,padding:'7px 10px',fontSize:12.5,color:'var(--color-text-primary)',cursor:'pointer',marginBottom:5,fontFamily:ff}},s))
-        ),
-        React.createElement('div',{style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:12,padding:14}},
-          React.createElement('div',{style:{fontSize:11.5,fontWeight:600,color:'var(--color-text-secondary)',marginBottom:8,letterSpacing:'0.3px'}},"ALEX'S PATHWAY"),
-          [{n:'SQL for Data Science',s:'✓'},{n:'Intro to Python',s:'✓'},{n:'Google Data Analytics',s:'68%'},{n:'Data Viz with Tableau',s:'→'}]
-          .map(u=>React.createElement('div',{key:u.n,style:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'5px 0',borderBottom:'0.5px solid var(--color-border-tertiary)'},},
-            React.createElement('span',{style:{fontSize:12,color:'var(--color-text-primary)',flex:1,paddingRight:6}},u.n),
-            React.createElement('span',{style:{fontSize:11.5,fontWeight:600,color:u.s==='✓'?'#2a9d5c':u.s==='→'?'#888':B.t}},u.s)
-          ))
-        )
-      ),
-
-      React.createElement('div',{style:{flex:1,background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:12,display:'flex',flexDirection:'column',overflow:'hidden'}},
-        React.createElement('div',{style:{flex:1,padding:20,overflowY:'auto',display:'flex',flexDirection:'column',gap:12,maxHeight:440}},
-          msgs.map((m,i)=>React.createElement('div',{key:i,style:{display:'flex',justifyContent:m.r==='u'?'flex-end':'flex-start',gap:8}},
-            m.r==='a'&&React.createElement('div',{style:{width:28,height:28,borderRadius:'50%',background:B.dt,color:B.g,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,flexShrink:0,marginTop:2,fontFamily:fs}},'E'),
-            React.createElement('div',{style:{maxWidth:'78%',padding:'11px 14px',borderRadius:m.r==='u'?'14px 14px 3px 14px':'14px 14px 14px 3px',background:m.r==='u'?B.t:'var(--color-background-secondary)',color:m.r==='u'?'white':'var(--color-text-primary)',fontSize:13.5,lineHeight:1.65}},m.c)
-          )),
-          loading&&React.createElement('div',{style:{display:'flex',gap:8}},
-            React.createElement('div',{style:{width:28,height:28,borderRadius:'50%',background:B.dt,color:B.g,display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,fontFamily:fs}},'E'),
-            React.createElement('div',{style:{padding:'12px 14px',background:'var(--color-background-secondary)',borderRadius:'14px 14px 14px 3px',display:'flex',gap:5,alignItems:'center'}},
-              ['d1','d2','d3'].map(c=>React.createElement('span',{key:c,className:c,style:{width:6,height:6,borderRadius:'50%',background:'var(--color-text-secondary)',display:'inline-block'}}))
-            )
-          ),
-          React.createElement('div',{ref:bot})
-        ),
-        React.createElement('div',{style:{padding:'12px 16px',borderTop:'0.5px solid var(--color-border-tertiary)',display:'flex',gap:9}},
-          React.createElement('input',{value:input,onChange:e=>setInput(e.target.value),onKeyDown:e=>e.key==='Enter'&&send(),placeholder:'Ask Eli about your learning path...',style:{flex:1,fontSize:13.5,padding:'9px 13px',border:'0.5px solid var(--color-border-secondary)',borderRadius:8,outline:'none',background:'var(--color-background-secondary)',color:'var(--color-text-primary)',fontFamily:ff}}),
-          React.createElement('button',{onClick:()=>send(),disabled:loading,style:{background:B.t,color:'white',border:'none',borderRadius:8,padding:'9px 18px',fontSize:13.5,fontWeight:500,cursor:'pointer',fontFamily:ff}},'Send')
-        )
-      )
-    )
-  );
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || "I'm having a moment — try again?";
+    chatHistory.push({ role: 'assistant', content: reply });
+    removeTyping();
+    appendMessage('eli', reply);
+  } catch(e) {
+    removeTyping();
+    appendMessage('eli', "Something went wrong connecting to the API. Try again in a moment.");
+  }
+  document.getElementById('send-btn').disabled = false;
 }
 
-function CommunityScreen(){
-  const init=[
-    {id:1,a:'Jordan M.',i:'JM',c:'#6340CC',role:'Career changer → UX Design',badge:'UX Design',time:'2h ago',t:"Just passed my Google UX Design final project review! Two years ago I was working retail and had no idea what UX even meant. The pathway builder pointed me here and I'm genuinely glad it did.",l:47,lk:false,comments:3},
-    {id:2,a:'Priya S.',i:'PS',c:B.t,role:'Healthcare → Data Analytics',badge:'Data & AI',time:'5h ago',t:"Hot take: the SQL for Data Science course from UC Davis is way better than most paid bootcamp content. Free, rigorous, and you actually build things. Eli found it for me and I almost skipped it.",l:31,lk:false,comments:7},
-    {id:3,a:'Marcus W.',i:'MW',c:B.r,role:'First-generation learner',badge:'Business',time:'1d ago',t:"The thing nobody tells you about career changing at 34 with two kids: it's possible but it takes a system. Having a record that tracks every step means nothing gets lost. That matters more than I expected.",l:89,lk:false,comments:12},
-    {id:4,a:'Sun-Yi K.',i:'SK',c:'#8a6800',role:'Trades → Project Management',badge:'Business',time:'2d ago',t:"Finished my PMP prep course last night. Three years of construction experience, now I have the credential to go with it. Elikonas was the first place that treated my field experience as real learning.",l:64,lk:false,comments:5},
-  ];
-  const [musings,setMusings]=useState(init);
-  const [draft,setDraft]=useState('');
-  const [filter,setFilter]=useState('All');
-  const tags=['All','Data & AI','Technology','Business','Healthcare','Trades'];
-  const toggle=id=>setMusings(p=>p.map(m=>m.id===id?{...m,lk:!m.lk,l:m.lk?m.l-1:m.l+1}:m));
-  const post=()=>{if(!draft.trim())return;setMusings(p=>[{id:Date.now(),a:'Alex Lee',i:'AL',c:B.dt,role:'Career changer · Data & AI',badge:'Data & AI',time:'Just now',t:draft,l:0,lk:false,comments:0},...p]);setDraft('');};
-  const shown=filter==='All'?musings:musings.filter(m=>m.badge===filter);
-  return React.createElement('div',{style:{fontFamily:ff,background:'var(--color-background-tertiary)',minHeight:'calc(100vh - 52px)',padding:28}},
-    React.createElement('div',{style:{maxWidth:820,margin:'0 auto'}},
-      React.createElement('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}},
-        React.createElement('div',null,
-          React.createElement('h2',{style:{fontSize:24,fontWeight:600,color:B.ch,fontFamily:fs,marginBottom:4}},'Community musings'),
-          React.createElement('p',{style:{fontSize:13.5,color:'var(--color-text-secondary)'}},'Real stories from learners on their own paths')
-        ),
-        React.createElement('div',{style:{display:'flex',gap:6}},
-          tags.map(tag=>React.createElement('button',{key:tag,onClick:()=>setFilter(tag),style:{background:filter===tag?B.t:'var(--color-background-primary)',color:filter===tag?'white':'var(--color-text-secondary)',border:`0.5px solid ${filter===tag?B.t:'var(--color-border-tertiary)'}`,borderRadius:7,padding:'5px 12px',fontSize:12,cursor:'pointer',fontFamily:ff}},tag))
-        )
-      ),
-      React.createElement('div',{style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:12,padding:16,marginBottom:16}},
-        React.createElement('div',{style:{display:'flex',gap:10,alignItems:'flex-start'}},
-          React.createElement('div',{style:{width:34,height:34,borderRadius:'50%',background:B.dt,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11.5,fontWeight:600,flexShrink:0}},'AL'),
-          React.createElement('div',{style:{flex:1}},
-            React.createElement('textarea',{value:draft,onChange:e=>setDraft(e.target.value),placeholder:"Share something from your learning journey...",style:{width:'100%',border:'none',outline:'none',resize:'none',fontSize:13.5,lineHeight:1.65,color:'var(--color-text-primary)',background:'transparent',minHeight:52,fontFamily:ff}}),
-            draft.trim()&&React.createElement('div',{style:{display:'flex',justifyContent:'flex-end',paddingTop:8,borderTop:'0.5px solid var(--color-border-tertiary)'}},
-              React.createElement('button',{onClick:post,style:{background:B.t,color:'white',border:'none',borderRadius:7,padding:'6px 16px',fontSize:12.5,fontWeight:500,cursor:'pointer',fontFamily:ff}},'Post musing')
-            )
-          )
-        )
-      ),
-      React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:10}},
-        shown.map(m=>React.createElement('div',{key:m.id,style:{background:'var(--color-background-primary)',border:'0.5px solid var(--color-border-tertiary)',borderRadius:12,padding:'18px 20px'}},
-          React.createElement('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:11}},
-            React.createElement('div',{style:{width:36,height:36,borderRadius:'50%',background:m.c,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:600,flexShrink:0}},m.i),
-            React.createElement('div',{style:{flex:1}},
-              React.createElement('div',{style:{display:'flex',alignItems:'center',gap:8}},
-                React.createElement('span',{style:{fontWeight:600,fontSize:14,color:B.ch}},m.a),
-                React.createElement('span',{style:{fontSize:11.5,background:`${B.t}14`,color:B.t,padding:'2px 8px',borderRadius:8,fontWeight:500}},m.badge)
-              ),
-              React.createElement('div',{style:{fontSize:12,color:'var(--color-text-secondary)',marginTop:1}},m.role)
-            ),
-            React.createElement('div',{style:{fontSize:11.5,color:'var(--color-text-secondary)'}},m.time)
-          ),
-          React.createElement('p',{style:{fontSize:13.5,lineHeight:1.7,color:'var(--color-text-primary)',marginBottom:12}},m.t),
-          React.createElement('div',{style:{display:'flex',gap:16,borderTop:'0.5px solid var(--color-border-tertiary)',paddingTop:10}},
-            React.createElement('button',{onClick:()=>toggle(m.id),style:{background:'none',border:'none',cursor:'pointer',fontSize:13,color:m.lk?B.r:'var(--color-text-secondary)',display:'flex',alignItems:'center',gap:5,padding:0,fontWeight:m.lk?500:400,fontFamily:ff}},
-              m.lk?'♥':'♡',' ',m.l,' ',m.l===1?'like':'likes'
-            ),
-            React.createElement('button',{style:{background:'none',border:'none',cursor:'pointer',fontSize:13,color:'var(--color-text-secondary)',display:'flex',alignItems:'center',gap:5,padding:0,fontFamily:ff}},
-              '○ ',m.comments,' ',m.comments===1?'comment':'comments'
-            )
-          )
-        ))
-      )
-    )
-  );
+function appendMessage(role, text) {
+  const feed = document.getElementById('chat-messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row' + (role === 'user' ? ' user' : '');
+  if (role === 'eli') {
+    row.innerHTML = `<div class="msg-eli-avatar">E</div><div class="msg-bubble eli">${text}</div>`;
+  } else {
+    row.innerHTML = `<div class="msg-bubble user">${text}</div>`;
+  }
+  feed.appendChild(row);
+  feed.scrollTop = feed.scrollHeight;
 }
 
-function App(){
-  const [screen,set]=useState('My Profile');
-  const screens={'My Profile':React.createElement(ProfileScreen),'AI Guide':React.createElement(AIGuideScreen),'Community':React.createElement(CommunityScreen)};
-  return React.createElement('div',null,React.createElement(TopBar,{active:screen,set}),screens[screen]);
+function appendTyping() {
+  const feed = document.getElementById('chat-messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row'; row.id = 'typing-row';
+  row.innerHTML = `<div class="msg-eli-avatar">E</div><div class="typing-indicator"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  feed.appendChild(row);
+  feed.scrollTop = feed.scrollHeight;
 }
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+function removeTyping() {
+  const t = document.getElementById('typing-row');
+  if (t) t.remove();
+}
+
+// ── COMMUNITY ──
+function toggleLike(btn, baseCount) {
+  const liked = btn.classList.toggle('liked');
+  btn.querySelector('.heart').textContent = liked ? '♥' : '♡';
+  btn.querySelector('.like-count').textContent = liked ? baseCount + 1 : baseCount;
+}
+
+function postMusing() {
+  const input = document.getElementById('compose-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const feed = document.getElementById('musing-feed');
+  const card = document.createElement('div');
+  card.className = 'musing-card';
+  card.dataset.badge = 'Data & AI';
+  card.innerHTML = `
+    <div class="musing-header">
+      <div class="musing-avatar" style="background:#084c61;">AL</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="musing-author">Alex Lee</span>
+          <span class="musing-badge">Data & AI</span>
+        </div>
+        <div class="musing-role">Career changer · Data & AI</div>
+      </div>
+      <span class="musing-time">Just now</span>
+    </div>
+    <div class="musing-body">${text}</div>
+    <div class="musing-footer">
+      <button class="reaction-btn" onclick="toggleLike(this,0)"><span class="heart">♡</span> <span class="like-count">0</span> likes</button>
+      <button class="reaction-btn">○ 0 comments</button>
+    </div>`;
+  feed.insertBefore(card, feed.firstChild);
+  input.value = '';
+}
+
+function filterMusings(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.musing-card').forEach(card => {
+    card.style.display = (tag === 'All' || card.dataset.badge === tag) ? 'block' : 'none';
+  });
+}
 </script>
+</body>
+</html>
