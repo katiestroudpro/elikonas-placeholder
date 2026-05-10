@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Received · Elikonas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --dark-teal: #084c61;
+      --teal:      #177e89;
+      --gold:      #ffc857;
+      --charcoal:  #323031;
+      --white:     #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark-teal);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 20%, rgba(23, 126, 137, 0.5) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(255, 200, 87, 0.1) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255, 200, 87, 0.25);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(18px);
+      animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    h1 em { font-style: normal; color: var(--gold); }
+    p {
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .btn-home {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), #e8a800);
+      color: var(--charcoal);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 200, 87, 0.3);
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="icon">💛</span>
+    <h1>Thank <em>You!</em></h1>
+    <p>Your payment was received successfully. It truly means a lot and goes directly toward building something meaningful — an education platform for people who've been overlooked for too long.</p>
+    <a href="/" class="btn-home">← Back to Elikonas</a>
+  </div>
+</body>
+</html>

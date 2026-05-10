@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make a Payment · Elikonas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    /* ── Variables ── */
+    :root {
+      --dark-teal: #084c61;
+      --teal:      #177e89;
+      --red:       #db3a34;
+      --gold:      #ffc857;
+      --charcoal:  #323031;
+      --white:     #ffffff;
+      --glass-bg:  rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 200, 87, 0.25);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark-teal);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated background mesh ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 10%, rgba(23, 126, 137, 0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 80%, rgba(255, 200, 87, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 70% at 70% 20%, rgba(8, 76, 97, 0.8) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* subtle grain texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ── */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      padding: 2rem 2rem 0;
+      text-align: center;
+      animation: fadeDown 0.7s ease both;
+    }
+
+    .logo-lockup {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .logo-wordmark {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .logo-wordmark span {
+      color: var(--gold);
+    }
+
+    .logo-tagline {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+    }
+
+    /* ── Main card ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1.25rem 5rem;
+    }
+
+    .payment-card {
+      width: 100%;
+      max-width: 540px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 2.75rem 2.5rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .card-header {
+      margin-bottom: 2rem;
+    }
+
+    .card-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-header h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .card-header p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+
+    /* ── Form sections ── */
+    .form-section {
+      margin-bottom: 1.75rem;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── Payment type tabs ── */
+    .type-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .type-tab {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.75rem 0.5rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .type-tab:hover {
+      border-color: rgba(255, 200, 87, 0.5);
+      background: rgba(255, 200, 87, 0.08);
+    }
+
+    .type-tab.active {
+      background: rgba(255, 200, 87, 0.15);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    .type-tab .tab-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .type-tab .tab-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .type-tab.active .tab-label {
+      color: var(--gold);
+    }
+
+    /* ── Amount presets ── */
+    .amount-presets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .preset-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 0.6rem 0.25rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .preset-btn:hover {
+      border-color: rgba(255, 200, 87, 0.5);
+      background: rgba(255, 200, 87, 0.08);
+    }
+
+    .preset-btn.active {
+      background: rgba(255, 200, 87, 0.18);
+      border-color: var(--gold);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── Text inputs ── */
+    .amount-input-wrap {
+      position: relative;
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      pointer-events: none;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="number"] { padding-left: 2.25rem; font-size: 1.1rem; font-weight: 500; }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    input:focus, textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255, 200, 87, 0.06);
+    }
+
+    textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,200,87,0.25), transparent);
+      margin: 1.75rem 0;
+    }
+
+    /* ── Summary ── */
+    .payment-summary {
+      background: rgba(255, 200, 87, 0.08);
+      border: 1px solid rgba(255, 200, 87, 0.2);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .summary-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .summary-type {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.15rem;
+    }
+
+    /* ── Submit button ── */
+    .btn-pay {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold) 0%, #e8a800 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      color: var(--charcoal);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .btn-pay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    }
+
+    .btn-pay:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 200, 87, 0.35);
+    }
+
+    .btn-pay:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-pay:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-pay .btn-icon { font-size: 1.1rem; }
+
+    /* ── Loading spinner ── */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(50,48,49,0.3);
+      border-top-color: var(--charcoal);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .btn-pay.loading .btn-text { display: none; }
+    .btn-pay.loading .btn-icon { display: none; }
+    .btn-pay.loading .spinner { display: block; }
+
+    /* ── Trust badges ── */
+    .trust-row {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .trust-badge .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ── Error / success states ── */
+    .form-message {
+      padding: 0.85rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .form-message.error {
+      background: rgba(219, 58, 52, 0.15);
+      border: 1px solid rgba(219, 58, 52, 0.4);
+      color: #ff9f9d;
+      display: block;
+    }
+
+    .form-message.success {
+      background: rgba(23, 126, 137, 0.2);
+      border: 1px solid rgba(23, 126, 137, 0.5);
+      color: #7de8f0;
+      display: block;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      text-align: center;
+      padding: 1.5rem 2rem 2rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .site-footer a {
+      color: rgba(255,200,87,0.6);
+      text-decoration: none;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .payment-card { padding: 2rem 1.5rem; }
+      .two-col { grid-template-columns: 1fr; }
+      .amount-presets { grid-template-columns: repeat(2, 1fr); }
+      .type-tabs { grid-template-columns: 1fr; gap: 0.4rem; }
+      .type-tab { flex-direction: row; justify-content: flex-start; gap: 0.75rem; padding: 0.65rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="/" class="logo-lockup" style="text-decoration:none;">
+      <span class="logo-wordmark">eli<span>ko</span>nas</span>
+      <span class="logo-tagline">Education for Everyone</span>
+    </a>
+  </header>
+
+  <!-- Main form -->
+  <main>
+    <div class="payment-card">
+
+      <div class="card-header">
+        <h1>Make a <em>Payment</em></h1>
+        <p>Support this work or pay for a service. Payments are processed securely through Stripe.</p>
+      </div>
+
+      <div id="form-message" class="form-message"></div>
+
+      <form id="payment-form" novalidate>
+
+        <!-- Payment Type -->
+        <div class="form-section">
+          <label class="field-label">Payment Type</label>
+          <div class="type-tabs" role="group" aria-label="Payment type">
+            <button type="button" class="type-tab active" data-type="Donation" data-label="Donation">
+              <span class="tab-icon">💛</span>
+              <span class="tab-label">Donation</span>
+            </button>
+            <button type="button" class="type-tab" data-type="Website Service" data-label="Website Service">
+              <span class="tab-icon">🌐</span>
+              <span class="tab-label">Website Service</span>
+            </button>
+            <button type="button" class="type-tab" data-type="Custom Service" data-label="Custom Service">
+              <span class="tab-icon">✦</span>
+              <span class="tab-label">Other</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Amount -->
+        <div class="form-section">
+          <label class="field-label">Amount</label>
+          <div class="amount-presets">
+            <button type="button" class="preset-btn" data-amount="25">$25</button>
+            <button type="button" class="preset-btn" data-amount="50">$50</button>
+            <button type="button" class="preset-btn" data-amount="100">$100</button>
+            <button type="button" class="preset-btn" data-amount="200">$200</button>
+          </div>
+          <div class="amount-input-wrap">
+            <span class="currency-symbol">$</span>
+            <input
+              type="number"
+              id="amount-input"
+              name="amount"
+              placeholder="Enter amount"
+              min="5"
+              step="1"
+              autocomplete="off"
+              aria-label="Payment amount in dollars"
+            />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Name + Email -->
+        <div class="form-section">
+          <label class="field-label">Your Details</label>
+          <div class="two-col" style="margin-bottom:0.65rem;">
+            <input type="text" name="firstName" placeholder="First name" autocomplete="given-name" />
+            <input type="text" name="lastName" placeholder="Last name" autocomplete="family-name" />
+          </div>
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" />
+        </div>
+
+        <!-- Note -->
+        <div class="form-section">
+          <label class="field-label" for="note">Note <span style="opacity:0.45;font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <textarea id="note" name="note" placeholder="What is this payment for? Any details or questions?"></textarea>
+        </div>
+
+        <!-- Summary -->
+        <div class="payment-summary">
+          <div>
+            <div class="summary-label">Total Due</div>
+            <div class="summary-type" id="summary-type">Donation</div>
+          </div>
+          <div class="summary-amount" id="summary-amount">$—</div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-pay" id="pay-btn" disabled>
+          <span class="btn-icon">🔒</span>
+          <span class="btn-text">Proceed to Secure Payment</span>
+          <div class="spinner"></div>
+        </button>
+
+        <div class="trust-row">
+          <span class="trust-badge">🔒 SSL Encrypted</span>
+          <span class="dot"></span>
+          <span class="trust-badge">Powered by Stripe</span>
+          <span class="dot"></span>
+          <span class="trust-badge">No card data stored here</span>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    &copy; 2026 Elikonas, PBC &nbsp;·&nbsp;
+    <a href="mailto:katie@katiestroud.com">katie@katiestroud.com</a>
+    &nbsp;·&nbsp;
+    <a href="/">elikonas.com</a>
+  </footer>
+
+</div>
+
+<script>
+  // ─── Configuration ────────────────────────────────────────────────
+  // Replace with your actual Stripe publishable key
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_YOUR_STRIPE_PUBLISHABLE_KEY_HERE';
+
+  // The URL of your serverless function (see checkout-function.js)
+  // Netlify: '/.netlify/functions/create-checkout'
+  // Vercel:  '/api/create-checkout'
+  const CHECKOUT_ENDPOINT = '/.netlify/functions/create-checkout';
+
+  // ─── State ────────────────────────────────────────────────────────
+  let selectedType  = 'Donation';
+  let selectedAmount = null;
+
+  const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+  // ─── DOM refs ─────────────────────────────────────────────────────
+  const amountInput   = document.getElementById('amount-input');
+  const summaryAmount = document.getElementById('summary-amount');
+  const summaryType   = document.getElementById('summary-type');
+  const payBtn        = document.getElementById('pay-btn');
+  const formMessage   = document.getElementById('form-message');
+  const form          = document.getElementById('payment-form');
+
+  // ─── Payment type tabs ────────────────────────────────────────────
+  document.querySelectorAll('.type-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      selectedType = tab.dataset.label;
+      summaryType.textContent = selectedType;
+    });
+  });
+
+  // ─── Preset amount buttons ────────────────────────────────────────
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      amountInput.value = btn.dataset.amount;
+      updateSummary(btn.dataset.amount);
+    });
+  });
+
+  // ─── Amount input ─────────────────────────────────────────────────
+  amountInput.addEventListener('input', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    const val = amountInput.value;
+    // Re-activate preset if it matches
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      if (btn.dataset.amount === val) btn.classList.add('active');
+    });
+    updateSummary(val);
+  });
+
+  function updateSummary(val) {
+    const num = parseFloat(val);
+    if (!isNaN(num) && num >= 5) {
+      selectedAmount = num;
+      summaryAmount.textContent = '$' + num.toFixed(2).replace(/\.00$/, '');
+      payBtn.disabled = false;
+    } else {
+      selectedAmount = null;
+      summaryAmount.textContent = '$—';
+      payBtn.disabled = true;
+    }
+  }
+
+  // ─── Form submission → Stripe Checkout ───────────────────────────
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearMessage();
+
+    if (!selectedAmount || selectedAmount < 5) {
+      showMessage('Please enter an amount of at least $5.', 'error');
+      return;
+    }
+
+    const firstName = form.firstName.value.trim();
+    const lastName  = form.lastName.value.trim();
+    const email     = form.email.value.trim();
+    const note      = form.note.value.trim();
+
+    // Validate email if provided
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage('Please enter a valid email address.', 'error');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(CHECKOUT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount:    Math.round(selectedAmount * 100), // cents
+          type:      selectedType,
+          firstName, lastName, email, note,
+          successUrl: window.location.origin + '/payment-success.html',
+          cancelUrl:  window.location.href,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.error) {
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
+
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
+
+    } catch (err) {
+      console.error(err);
+      showMessage(err.message || 'Unable to connect. Please try again.', 'error');
+      setLoading(false);
+    }
+  });
+
+  // ─── Helpers ──────────────────────────────────────────────────────
+  function setLoading(isLoading) {
+    payBtn.classList.toggle('loading', isLoading);
+    payBtn.disabled = isLoading;
+  }
+
+  function showMessage(msg, type) {
+    formMessage.textContent = msg;
+    formMessage.className = 'form-message ' + type;
+    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function clearMessage() {
+    formMessage.className = 'form-message';
+    formMessage.textContent = '';
+  }
+</script>
+</body>
+</html>
